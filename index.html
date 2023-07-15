@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title> Space Invaders Spaceships</title>
+  <style>
+    body {
+      padding: 20px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #111;
+      color: white;
+      font-family: monospace;
+      text-align: center;
+      background-image: radial-gradient(2px 2px at 20px 30px, #eee, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 40px 70px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 50px 160px, #ddd, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 90px 40px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 130px 80px, #fff, rgba(0, 0, 0, 0)),
+        radial-gradient(2px 2px at 160px 120px, #ddd, rgba(0, 0, 0, 0));
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .box {
+      width: 150px;
+      border: 1px solid #222;
+      border-radius: 5px;
+      padding: 15px;
+      display: inline-block;
+      position: relative;
+      margin-right: 25px;
+      margin-bottom: 25px;
+      transition: .75s;
+      background: #111;
+      transform-origin: top left;
+    }
+
+    .box:hover {
+      transform: scale(1.5);
+      z-index: 2;
+    }
+
+    .name {
+      text-align: center;
+      width: 100%;
+    }
+
+    .block {
+      width: 10px;
+      height: 10px;
+      float: left;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Space Invaders Spaceships<br><br></h1>
+
+  <div id="invaders" class="box">
+    <div id="invadersShip"></div>
+    <div class="name">Space Invaders<br>(1978)</div>
+  </div>
+
+  <div id="asteroids" class="box">
+    <div id="asteroidsShip"></div>
+    <div class="name">Asteroids<br>(1979)</div>
+  </div>
+
+  <div id="galaxian" class="box">
+    <div id="galaxianShip"></div>
+    <div class="name">Galaxian<br>(1979)</div>
+  </div>
+
+  <div id="galaga" class="box">
+    <div id="galagaShip"></div>
+    <div class="name">Galaga<br>(1981)</div>
+  </div>
+
+  <div id="x" class="box">
+    <div id="xShip"></div>
+    <div class="name">Xevious<br>(1983)</div>
+  </div>
+
+  <div id="gradius" class="box">
+    <div id="gradiusShip"></div>
+    <div class="name">Gradius<br>(1985)</div>
+  </div>
+
+  <div id="metroid" class="box">
+    <div id="metroidShip"></div>
+    <div class="name">Super Metroid<br>(1994)</div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    Inspired by Kit Jenson from <a href="https://codepen.io/kitjenson/pen/vwQwyb">CodePen</a>
+  </div>
+
+  <script>
+    // Invaders ship
+    var invaders = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ];
+
+    for (var i = 0; i < invaders.length; i++) {
+      var block = document.createElement('div');
+      block.className = 'block';
+      if (invaders[i] === 1) {
+        block.style.background = 'Lime';
+      }
+      document.getElementById('invadersShip').appendChild(block);
+    }
+
+    // Asteroids ship
+    var asteroids = [
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0,
+      0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
+      0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+      0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+      0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0
+    ];
+
+    for (var i = 0; i < asteroids.length; i++) {
+      var block = document.createElement('div');
+      block.className = 'block';
+      if (asteroids[i] === 1) {
+        block.style.background = 'white';
+      }
+      document.getElementById('asteroidsShip').appendChild(block);
+    }
+
+    // Galaxian ship
+    var galaxian = [
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 0,
+      0, 0, 0, 0, 2, 0, 0, 2, 0, 0, 2, 0, 0, 0, 0,
+      0, 0, 3, 0, 0, 0, 0, 2, 0, 0, 0, 0, 3, 0, 0,
+      0, 3, 3, 3, 0, 0, 4, 2, 4, 0, 0, 3, 3, 3, 0,
+      0, 3, 4, 3, 0, 4, 4, 2, 4, 4, 0, 3, 4, 3, 0,
+      0, 3, 4, 3, 4, 4, 4, 2, 4, 4, 4, 3, 4, 3, 0,
+      0, 3, 4, 4, 4, 4, 4, 2, 4, 4, 4, 4, 4, 3, 0,
+      0, 3, 4, 3, 4, 0, 4, 2, 4, 0, 4, 3, 4, 3, 0,
+      0, 3, 4, 3, 0, 0, 4, 0, 4, 0, 0, 3, 4, 3, 0,
+      0, 3, 3, 3, 0, 0, 4, 0, 4, 0, 0, 3, 3, 3, 0,
+      0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0
+    ];
+
+    for (var i = 0; i < galaxian.length; i++) {
+      var block = document.createElement('div');
+      block.className = 'block';
+      if (galaxian[i] === 1) {
+        block.style.background = 'gold';
+      }
+      if (galaxian[i] === 2) {
+        block.style.background = 'red';
+      }
+      if (galaxian[i] === 3) {
+        block.style.background = 'white';
+      }
+      if (galaxian[i] === 4) {
+        block.style.background = 'cyan';
+      }
+      document.getElementById('galaxianShip').appendChild(block);
+    }
+
+    // Galaga ship
+    var galaga = [
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 2, 0, 0, 1, 1, 1, 0, 0, 2, 0, 0, 0,
+      0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0,
+      0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0, 0, 2,
+      2, 0, 0, 1, 3, 1, 1, 1, 1, 1, 3, 1, 0, 0, 1,
+      1, 0, 0, 3, 1, 1, 1, 1, 1, 1, 1, 3, 0, 0, 1,
+      1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1,
+      1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 1, 1, 1, 1, 1,
+      0, 0, 0, 0, 2, 2, 1, 1, 1, 2, 2, 0, 0, 0, 0,
+      0, 0, 0, 0, 2, 2, 0, 1, 0, 2, 2, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0
+    ];
+
+    for (var i = 0; i < galaga.length; i++) {
+      var block = document.createElement('div');
+      block.className = 'block';
+      if (galaga[i] === 1) {
+        block.style.background = 'red';
+      }
+      if (galaga[i] === 2) {
+        block.style.background = 'white';
+      }
+      if (galaga[i] === 3) {
+        block.style.background = 'blue';
+      }
+      document.getElementById('galagaShip').appendChild(block);
+    }
+
+    // Xevious ship
+    var xevious = [
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 1, 1, 0, 1, 0, 1, 1, 0, 0, 0, 0,
+      0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
+      0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+      1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1,
+      0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    ];
+
+    for (var i = 0; i < xevious.length; i++) {
+      var block = document.createElement('div');
+      block.className = 'block';
+      if (xevious[i] === 1) {
+        block.style.background = 'white';
+      }
+      document.getElementById('xShip').appendChild(block);
+    }
+
+    // Gradius ship
+    var gradius = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 0, 0,
+      0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
+      0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+      0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+      0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 0, 1, 0, 1, 1, 0, 1, 0, 1, 1, 0, 1, 0, 0,
+      0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0,
+      0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0
+    ];
+
+    for (var i = 0; i < gradius.length; i++) {
+      var block = document.createElement('div');
+      block.className = 'block';
+      if (gradius[i] === 1) {
+        block.style.background = 'cyan';
+      }
+      document.getElementById('gradiusShip').appendChild(block);
+    }
+
+    // Metroid ship
+    var metroid = [
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0,
+      0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0,
+      0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+      0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0,
+      0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0,
+      0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0
+    ];
+
+    for (var i = 0; i < metroid.length; i++) {
+      var block = document.createElement('div');
+      block.className = 'block';
+      if (metroid[i] === 1) {
+        block.style.background = 'red';
+      }
+      document.getElementById('metroidShip').appendChild(block);
+    }
+  </script>
+</body>
+
+</html>
